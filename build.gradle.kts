@@ -67,6 +67,7 @@ bintray {
     pkg(delegateClosureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
         repo = "jvm-packages"
         name = "exposed-upsert"
+        userOrg = "lukas-forst"
         websiteUrl = "https://forst.pw"
         githubRepo = "LukasForst/exposed-upsert"
         vcsUrl = "https://github.com/LukasForst/exposed-upsert"
