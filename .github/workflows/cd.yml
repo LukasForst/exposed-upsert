@@ -25,3 +25,9 @@ jobs:
         env:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Bintray
+        run: ./gradlew bintrayUpload
+        env:
+          BINTRAY_USER: ${{ secrets.BintrayUser }}
+          BINTRAY_TOKEN: ${{ secrets.BintrayToken }}
