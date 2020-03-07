@@ -1,10 +1,11 @@
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.3.70"
+    id("net.nemerosa.versioning") version "2.8.2"
 }
 
 group = "pw.forst"
-version = "0.0.1"
+version = versioning.info.tag
 
 repositories {
     jcenter()
