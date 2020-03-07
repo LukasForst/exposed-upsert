@@ -2,12 +2,25 @@
 
 name: CI
 
-on: [push, pull_request]
+
+on: [push]
+
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master
-    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-11
-      with:
-        args: test
+      - uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.3
+
+      - name: Execute test with gradle
+        run: ./gradlew test
+
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
