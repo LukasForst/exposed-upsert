@@ -1,3 +1,5 @@
+import com.jfrog.bintray.gradle.BintrayExtension
+
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.3.70"
@@ -5,6 +7,7 @@ plugins {
     id("com.jfrog.bintray") version "1.8.4"
 }
 
+// project name must be set in settings.gradle.kts
 group = "pw.forst"
 version = versioning.info.lastTag
 
@@ -26,6 +29,12 @@ tasks {
     }
 }
 
+// ------------------------------------ Deployment Configuration  ------------------------------------
+val githubRepository = "LukasForst/exposed-upsert"
+val descriptionForPackage = "Simple upsert implementation for Exposed and PostgreSQL"
+val tags = arrayOf("kotlin", "PostgreSQL", "Exposed", "Exposed-Extensions")
+// everything bellow is set automatically
+
 // deployment configuration - deploy with sources and documentation
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")
@@ -37,42 +46,49 @@ val javadocJar by tasks.creating(Jar::class) {
     from(tasks.javadoc)
 }
 
-val publication = "exposed-upsert"
+// name the publication as it is referenced
+val publication = "default-gradle-publication"
 publishing {
+    // create jar with sources and with javadoc
     publications {
-        register("exposed-upsert", MavenPublication::class) {
+        register(publication, MavenPublication::class) {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
         }
     }
 
+    // publish package to the github packages
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/LukasForst/exposed-upsert")
+            url = uri("https://maven.pkg.github.com/$githubRepository")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
 }
 
+// upload to bintray
 bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_TOKEN")
+    // env variables loaded from pipeline for publish
+    user = project.findProperty("bintray.user") as String? ?: System.getenv("BINTRAY_USER")
+    key = project.findProperty("bintray.key") as String? ?: System.getenv("BINTRAY_TOKEN")
     publish = true
     setPublications(publication)
-    pkg(delegateClosureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
+    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
+        // my repository for maven packages
         repo = "jvm-packages"
-        name = "exposed-upsert"
+        name = project.name
+        // my user account at bintray
         userOrg = "lukas-forst"
         websiteUrl = "https://forst.pw"
-        githubRepo = "LukasForst/exposed-upsert"
-        vcsUrl = "https://github.com/LukasForst/exposed-upsert"
-        description = "Simple upsert implementation for Exposed and PostgreSQL"
-        setLabels("kotlin", "PostgreSQL", "Exposed", "Exposed-Extensions")
+        githubRepo = githubRepository
+        vcsUrl = "https://github.com/$githubRepository"
+        description = descriptionForPackage
+        setLabels(*tags)
         setLicenses("MIT")
         desc = description
     })
