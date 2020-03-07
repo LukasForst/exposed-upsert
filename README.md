@@ -1,5 +1,5 @@
 # exposed-upsert
-![](https://github.com/LukasForst/exposed-upsert/workflows/.github/workflows/cd.yml/badge.svg)
+![CI Build Pipeline](https://github.com/LukasForst/exposed-upsert/workflows/CI%20Build%20Pipeline/badge.svg)
 
 PostgreSQL upsert for Exposed framework based on issues.
 
