@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "pw.forst"
-version = versioning.info.tag
+version = versioning.info.lastTag
 
 repositories {
     jcenter()
