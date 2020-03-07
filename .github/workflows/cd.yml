@@ -3,7 +3,7 @@ name: CD publish pipeline
 # Trigger the workflow on pull request activity
 on:
   release:
-    types: [published, created, edited]
+    types: published
 
 jobs:
   build:
