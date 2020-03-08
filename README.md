@@ -22,7 +22,7 @@ Votes.insertOrUpdate(Votes.pollId, Votes.userId) {
 
 Library is hosted on [Github Packages](https://github.com/LukasForst/exposed-upsert/packages) and on [Bintray](https://bintray.com/beta/#/lukas-forst/jvm-packages/exposed-upsert). To include the libary in your project:
 Maven:
-```
+```xml
 <dependency>
 	<groupId>pw.forst</groupId>
 	<artifactId>exposed-upsert</artifactId>
@@ -30,6 +30,6 @@ Maven:
 </dependency>
 ```
 Gradle:
-```
+```kotlin
 implementation("pw.forst", "exposed-upsert", "1.0")
 ```
