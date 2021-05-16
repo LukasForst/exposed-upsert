@@ -1,23 +1,36 @@
-import com.jfrog.bintray.gradle.BintrayExtension
+import org.gradle.jvm.tasks.Jar
+import java.net.URL
 
 plugins {
+    kotlin("jvm") version "1.5.0"
+
     `maven-publish`
-    kotlin("jvm") version "1.3.70"
-    id("net.nemerosa.versioning") version "2.8.2"
-    id("com.jfrog.bintray") version "1.8.4"
+    signing
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+
+    id("net.nemerosa.versioning") version "2.14.0"
+    id("org.jetbrains.dokka") version "1.4.32"
+    id("io.gitlab.arturbosch.detekt") version "1.17.0"
 }
 
-// project name must be set in settings.gradle.kts
 group = "pw.forst"
-version = versioning.info.lastTag
+base.archivesBaseName = "exposed-upsert"
+version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "SNAPSHOT"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
-    compileOnly("org.jetbrains.exposed", "exposed-core", "0.21.1")
+    compileOnly("org.jetbrains.exposed", "exposed-core", "0.31.1")
+    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.0")
+}
+
+detekt {
+    parallel = true
+    input = files("$rootDir/src")
+    config = files(rootDir.resolve("detekt-config.yml"))
 }
 
 tasks {
@@ -27,14 +40,29 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
     }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    dokkaHtml {
+        outputDirectory.set(File("$buildDir/docs"))
+
+        dokkaSourceSets {
+            configureEach {
+                displayName.set("Exposed Upsert")
+
+                sourceLink {
+                    localDirectory.set(file("src/main/kotlin"))
+                    remoteUrl.set(URL("https://github.com/LukasForst/exposed-upsert/tree/master/src/main/kotlin"))
+                    remoteLineSuffix.set("#L")
+                }
+            }
+        }
+    }
 }
 
 // ------------------------------------ Deployment Configuration  ------------------------------------
-val githubRepository = "LukasForst/exposed-upsert"
-val descriptionForPackage = "Simple upsert implementation for Exposed and PostgreSQL"
-val tags = arrayOf("kotlin", "PostgreSQL", "Exposed", "Exposed-Extensions")
-// everything bellow is set automatically
-
 // deployment configuration - deploy with sources and documentation
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")
@@ -47,49 +75,58 @@ val javadocJar by tasks.creating(Jar::class) {
 }
 
 // name the publication as it is referenced
-val publication = "default-gradle-publication"
+val publication = "mavenJava"
 publishing {
     // create jar with sources and with javadoc
     publications {
-        register(publication, MavenPublication::class) {
+        create<MavenPublication>(publication) {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
-        }
-    }
 
-    // publish package to the github packages
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/$githubRepository")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            pom {
+                name.set("exposed-upsert")
+                description.set("Simple upsert implementation for Exposed and PostgreSQL.")
+                url.set("https://exposed-upsert.forst.pw")
+                packaging = "jar"
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://mit-license.org/license.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("lukasforst")
+                        name.set("Lukas Forst")
+                        email.set("lukas@forst.pw")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/LukasForst/exposed-upsert.git")
+                    url.set("https://github.com/LukasForst/exposed-upsert")
+                }
             }
         }
     }
 }
 
-// upload to bintray
-bintray {
-    // env variables loaded from pipeline for publish
-    user = project.findProperty("bintray.user") as String? ?: System.getenv("BINTRAY_USER")
-    key = project.findProperty("bintray.key") as String? ?: System.getenv("BINTRAY_TOKEN")
-    publish = true
-    setPublications(publication)
-    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        // my repository for maven packages
-        repo = "jvm-packages"
-        name = project.name
-        // my user account at bintray
-        userOrg = "lukas-forst"
-        websiteUrl = "https://forst.pw"
-        githubRepo = githubRepository
-        vcsUrl = "https://github.com/$githubRepository"
-        description = descriptionForPackage
-        setLabels(*tags)
-        setLicenses("MIT")
-        desc = description
-    })
+signing {
+    val signingKeyId = project.findProperty("gpg.keyId") as String? ?: System.getenv("GPG_KEY_ID")
+    val signingKey = project.findProperty("gpg.key") as String? ?: System.getenv("GPG_KEY")
+    val signingPassword = project.findProperty("gpg.keyPassword") as String? ?: System.getenv("GPG_KEY_PASSWORD")
+
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications[publication])
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(project.findProperty("ossrh.username") as String? ?: System.getenv("OSSRH_USERNAME"))
+            password.set(project.findProperty("ossrh.password") as String? ?: System.getenv("OSSRH_PASSWORD"))
+        }
+    }
 }

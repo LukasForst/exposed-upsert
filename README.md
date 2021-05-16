@@ -1,7 +1,6 @@
 # Exposed PostgreSQL Upsert
 ![CI Build Pipeline](https://github.com/LukasForst/exposed-upsert/workflows/CI%20Build%20Pipeline/badge.svg) 
 ![CD publish pipeline](https://github.com/LukasForst/exposed-upsert/workflows/CD%20publish%20pipeline/badge.svg)
-[ ![Download](https://api.bintray.com/packages/lukas-forst/jvm-packages/exposed-upsert/images/download.svg?version=1.0) ](https://bintray.com/lukas-forst/jvm-packages/exposed-upsert/1.0/link)
 
 Unfortunately, current [Exposed](https://github.com/JetBrains/Exposed) framework does not contain upsert 
 (update or insert) functionality out of the box. 
@@ -22,16 +21,15 @@ Votes.insertOrUpdate(Votes.pollId, Votes.userId) {
 }
 ```
 
-Library is hosted on [Github Packages](https://github.com/LukasForst/exposed-upsert/packages) and on [Bintray](https://bintray.com/beta/#/lukas-forst/jvm-packages/exposed-upsert). To include the libary in your project:
-Maven:
+Library is hosted on Maven Central.
 ```xml
 <dependency>
 	<groupId>pw.forst</groupId>
 	<artifactId>exposed-upsert</artifactId>
-	<version>1.0</version>
+	<version>1.1.0</version>
 </dependency>
 ```
 Gradle:
 ```kotlin
-implementation("pw.forst", "exposed-upsert", "1.0")
+implementation("pw.forst", "exposed-upsert", "1.1.0")
 ```
