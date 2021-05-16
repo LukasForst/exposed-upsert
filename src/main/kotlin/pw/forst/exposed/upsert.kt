@@ -18,7 +18,7 @@ it[userId] = pollAction.userId
 ```
  */
 fun <T : Table> T.insertOrUpdate(vararg keys: Column<*>, body: T.(InsertStatement<Number>) -> Unit) =
-    InsertOrUpdate<Number>(this, keys = *keys).apply {
+    InsertOrUpdate<Number>(this, keys = keys).apply {
         body(this)
         execute(TransactionManager.current())
     }
