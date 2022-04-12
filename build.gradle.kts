@@ -2,19 +2,21 @@ import org.gradle.jvm.tasks.Jar
 import java.net.URL
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.6.20"
 
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("net.nemerosa.versioning") version "2.14.0"
-    id("org.jetbrains.dokka") version "1.4.32"
-    id("io.gitlab.arturbosch.detekt") version "1.17.0"
+    id("net.nemerosa.versioning") version "2.15.1"
+    id("org.jetbrains.dokka") version "1.6.10"
+    id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
-group = "pw.forst"
-base.archivesBaseName = "exposed-upsert"
+
+group = "dev.forst"
+base.archivesName.set("exposed-upsert")
+version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "SNAPSHOT"
 version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "SNAPSHOT"
 
 repositories {
@@ -22,14 +24,15 @@ repositories {
 }
 
 dependencies {
+    compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
-    compileOnly("org.jetbrains.exposed", "exposed-core", "0.31.1")
-    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.0")
+
+    compileOnly("org.jetbrains.exposed", "exposed-core", "0.37.3")
 }
 
 detekt {
     parallel = true
-    input = files("$rootDir/src")
+    source = files("$rootDir/src")
     config = files(rootDir.resolve("detekt-config.yml"))
 }
 
@@ -87,19 +90,19 @@ publishing {
             pom {
                 name.set("exposed-upsert")
                 description.set("Simple upsert implementation for Exposed and PostgreSQL.")
-                url.set("https://exposed-upsert.forst.pw")
+                url.set("https://exposed.forst.dev")
                 packaging = "jar"
                 licenses {
                     license {
                         name.set("MIT")
-                        url.set("https://mit-license.org/license.txt")
+                        url.set("https://github.com/LukasForst/exposed-upsert/blob/master/LICENSE")
                     }
                 }
                 developers {
                     developer {
                         id.set("lukasforst")
                         name.set("Lukas Forst")
-                        email.set("lukas@forst.pw")
+                        email.set("lukas@forst.dev")
                     }
                 }
                 scm {
