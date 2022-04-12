@@ -25,10 +25,10 @@ Library is hosted on Maven Central.
 <dependency>
 	<groupId>dev.forst</groupId>
 	<artifactId>exposed-upsert</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 </dependency>
 ```
 Gradle:
 ```kotlin
-implementation("dev.forst", "exposed-upsert", "1.1.0")
+implementation("dev.forst", "exposed-upsert", "1.2.0")
 ```
