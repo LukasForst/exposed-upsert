@@ -1,9 +1,9 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-$dokka.location:pw.forst.exposed////PointingToDeclaration/exposed-upsert/pw.forst.exposed/index.html
-$dokka.location:pw.forst.exposed//insertOrUpdate/TypeParam(bounds=[org.jetbrains.exposed.sql.Table])#kotlin.Array[org.jetbrains.exposed.sql.Column[*]]#kotlin.Function2[TypeParam(bounds=[org.jetbrains.exposed.sql.Table]),org.jetbrains.exposed.sql.statements.InsertStatement[kotlin.Number],kotlin.Unit]/PointingToDeclaration/exposed-upsert/pw.forst.exposed/insert-or-update.html
-$dokka.location:pw.forst.exposed/InsertOrUpdate///PointingToDeclaration/exposed-upsert/pw.forst.exposed/-insert-or-update/index.html
-$dokka.location:pw.forst.exposed/InsertOrUpdate/InsertOrUpdate/#org.jetbrains.exposed.sql.Table#kotlin.Boolean#kotlin.Array[org.jetbrains.exposed.sql.Column[*]]/PointingToDeclaration/exposed-upsert/pw.forst.exposed/-insert-or-update/-insert-or-update.html
-$dokka.location:pw.forst.exposed/InsertOrUpdate/prepareSQL/#org.jetbrains.exposed.sql.Transaction/PointingToDeclaration/exposed-upsert/pw.forst.exposed/-insert-or-update/prepare-s-q-l.html
-pw.forst.exposed
+$dokka.location:dev.forst.exposed////PointingToDeclaration/exposed-upsert/dev.forst.exposed/index.html
+$dokka.location:dev.forst.exposed//insertOrUpdate/TypeParam(bounds=[org.jetbrains.exposed.sql.Table])#kotlin.Array[org.jetbrains.exposed.sql.Column[*]]#kotlin.Function2[TypeParam(bounds=[org.jetbrains.exposed.sql.Table]),org.jetbrains.exposed.sql.statements.InsertStatement[kotlin.Number],kotlin.Unit]/PointingToDeclaration/exposed-upsert/dev.forst.exposed/insert-or-update.html
+$dokka.location:dev.forst.exposed/InsertOrUpdate///PointingToDeclaration/exposed-upsert/dev.forst.exposed/-insert-or-update/index.html
+$dokka.location:dev.forst.exposed/InsertOrUpdate/InsertOrUpdate/#org.jetbrains.exposed.sql.Table#kotlin.Boolean#kotlin.Array[org.jetbrains.exposed.sql.Column[*]]/PointingToDeclaration/exposed-upsert/dev.forst.exposed/-insert-or-update/-insert-or-update.html
+$dokka.location:dev.forst.exposed/InsertOrUpdate/prepareSQL/#org.jetbrains.exposed.sql.Transaction/PointingToDeclaration/exposed-upsert/dev.forst.exposed/-insert-or-update/prepare-s-q-l.html
+dev.forst.exposed
 
