@@ -1,4 +1,4 @@
-package pw.forst.exposed
+package dev.forst.exposed
 
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table

@@ -23,12 +23,12 @@ Votes.insertOrUpdate(Votes.pollId, Votes.userId) {
 Library is hosted on Maven Central.
 ```xml
 <dependency>
-	<groupId>pw.forst</groupId>
+	<groupId>dev.forst</groupId>
 	<artifactId>exposed-upsert</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 </dependency>
 ```
 Gradle:
 ```kotlin
-implementation("pw.forst", "exposed-upsert", "1.1.0")
+implementation("dev.forst", "exposed-upsert", "1.2.0")
 ```
