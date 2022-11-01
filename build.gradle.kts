@@ -7,10 +7,10 @@ plugins {
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
-
+    // we can not switch to 3.x.x because we want to keep it compatible with JVM 8
     id("net.nemerosa.versioning") version "2.15.1"
     id("org.jetbrains.dokka") version "1.7.20"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
 
 
@@ -24,10 +24,12 @@ repositories {
 }
 
 dependencies {
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
 
-    compileOnly("org.jetbrains.exposed", "exposed-core", "0.37.3")
+    compileOnly("org.jetbrains.exposed:exposed-core:0.40.1")
 }
 
 detekt {
