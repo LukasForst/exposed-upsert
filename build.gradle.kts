@@ -29,7 +29,7 @@ dependencies {
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
 
-    compileOnly("org.jetbrains.exposed:exposed-core:0.40.1")
+    compileOnly("org.jetbrains.exposed:exposed-core:0.41.1")
 }
 
 detekt {
