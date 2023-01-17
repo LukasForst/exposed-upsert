@@ -2,7 +2,7 @@ import org.gradle.jvm.tasks.Jar
 import java.net.URL
 
 plugins {
-    kotlin("jvm") version "1.7.22"
+    kotlin("jvm") version "1.8.0"
 
     `maven-publish`
     signing
