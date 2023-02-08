@@ -1,6 +1,4 @@
 # Exposed PostgreSQL Upsert
-![CI Build Pipeline](https://github.com/LukasForst/exposed-upsert/workflows/CI%20Build%20Pipeline/badge.svg) 
-![CD publish pipeline](https://github.com/LukasForst/exposed-upsert/workflows/CD%20publish%20pipeline/badge.svg)
 
 Unfortunately, current [Exposed](https://github.com/JetBrains/Exposed) framework does not contain upsert 
 (update or insert) functionality out of the box. 
@@ -25,10 +23,10 @@ Library is hosted on Maven Central.
 <dependency>
 	<groupId>dev.forst</groupId>
 	<artifactId>exposed-upsert</artifactId>
-	<version>1.3.0</version>
+	<version>1.3.4</version>
 </dependency>
 ```
 Gradle:
 ```kotlin
-implementation("dev.forst", "exposed-upsert", "1.3.0")
+implementation("dev.forst", "exposed-upsert", "1.3.4")
 ```
