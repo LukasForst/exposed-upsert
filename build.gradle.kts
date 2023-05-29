@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
 
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
